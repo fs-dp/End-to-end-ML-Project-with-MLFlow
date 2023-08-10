@@ -1,0 +1,43 @@
+# pandas: Data manipulation and analysis library
+pandas
+
+# mlflow: Open source platform for the complete machine learning lifecycle
+mlflow==2.2.2
+
+# notebook: Web-based interactive computing environment (Jupyter Notebook)
+notebook
+
+# numpy: Fundamental package for scientific computing with Python
+numpy
+
+# scikit-learn: Machine learning library for classification, regression, clustering, etc.
+scikit-learn
+
+# matplotlib: 2D plotting library to create visualizations
+matplotlib
+
+# python-box: Simple data structures with attribute access
+python-box==6.0.2
+
+# pyYAML: YAML parser and emitter for Python
+pyYAML
+
+# tqdm: Fast, extensible progress bar for loops and CLI
+tqdm
+
+# ensure: Assertion library for Python unit tests
+ensure==1.0.2
+
+# joblib: Set of tools to provide lightweight pipelining in Python
+joblib
+
+# types-PyYAML: Type stubs for PyYAML library
+types-PyYAML
+
+# Flask: Micro web framework for building web applications
+Flask
+
+# Flask-Cors: Extension for handling Cross-Origin Resource Sharing (CORS)
+Flask-Cors
+
+-e .
