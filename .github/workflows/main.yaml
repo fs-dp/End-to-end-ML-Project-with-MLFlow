@@ -1,0 +1,110 @@
+# Name of this GitHub Actions workflow
+name: workflow
+
+# This workflow is triggered on pushes to the `main` branch,
+# except for commits that only modify the README.md
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - 'README.md'
+
+permissions:
+  id-token: write  # Permissions to write id-tokens
+  contents: read   # Permission to read repository contents
+
+# Jobs to be run in the workflow
+jobs:
+  # Continuous Integration Job
+  integration:
+    name: Continuous Integration
+    runs-on: ubuntu-latest  # Run this job on latest Ubuntu
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3  # Checkout the code from repo
+
+      - name: Lint code
+        run: echo "Linting repository"  # Placeholder for linting
+
+      - name: Run unit tests
+        run: echo "Running unit tests"   # Placeholder for tests
+
+  # Continuous Delivery Job - Build & Push Docker Image to ECR
+  build-and-push-ecr-image:
+    name: Continuous Delivery
+    needs: integration   # Depends on successful integration job
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+      
+      # Install required utilities
+      - name: Install Utilities
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq unzip
+      
+      # Set AWS credentials for the job
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+      
+      # Login to ECR
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+      
+      # Build, tag and push the docker image to ECR
+      - name: Build, tag, and push image to Amazon ECR
+        id: build-and-push-ecr-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY_NAME }}
+          IMAGE_TAG: latest 
+        run: |
+          # This is empty; you need to add Docker build, tag & push commands here
+
+  # Continuous Deployment Job - Pull and run the Docker Image
+  Continuous-Deployment:
+    needs: build-and-push-ecr-image   # Depends on the above job
+    runs-on: self-hosted   # Run this job on a self-hosted runner
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      
+      # Set AWS credentials
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      # Login to ECR
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+      
+      # Pull the latest Docker image
+      - name: Pull latest images
+        run: |
+          docker pull ${{ secrets.AWS_ECR_LOGIN_URI }}/${{ secrets.ECR_REPOSITORY_NAME }}:latest
+      
+      # Stop & remove the previous Docker container if it's running
+      - name: Stop and remove container if running
+        run: |
+          docker ps -q --filter "name=cnncls" | grep -q . && docker stop cnncls && docker rm cnncls
+      
+      # Run the Docker container
+      - name: Run Docker Image to serve users
+        run: |
+          docker run -d -p 8080:8080 --name=cnncls -e 'AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}'
+      
+      # Clean up previous Docker images and containers
+      - name: Clean previous images and containers
+        run: |
+          docker system prune -f
