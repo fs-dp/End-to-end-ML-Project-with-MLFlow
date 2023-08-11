@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/zekitekin/Documents/GitHub/End-to-end-ML-Project-with-MLFlow/mlruns/0/a09dec07c1d74e269a7d3161fa2d21e5/artifacts
+end_time: 1691696796689
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: a09dec07c1d74e269a7d3161fa2d21e5
+run_name: overjoyed-sponge-586
+run_uuid: a09dec07c1d74e269a7d3161fa2d21e5
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1691696795482
+status: 3
+tags: []
+user_id: zekitekin

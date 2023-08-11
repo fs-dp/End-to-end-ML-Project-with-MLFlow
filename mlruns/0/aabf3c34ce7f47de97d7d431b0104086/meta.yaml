@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/zekitekin/Documents/GitHub/End-to-end-ML-Project-with-MLFlow/mlruns/0/aabf3c34ce7f47de97d7d431b0104086/artifacts
+end_time: 1691697598854
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: aabf3c34ce7f47de97d7d431b0104086
+run_name: likeable-flea-453
+run_uuid: aabf3c34ce7f47de97d7d431b0104086
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1691697597638
+status: 3
+tags: []
+user_id: zekitekin

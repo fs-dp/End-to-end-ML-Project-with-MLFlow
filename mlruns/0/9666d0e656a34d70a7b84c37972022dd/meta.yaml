@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/zekitekin/Documents/GitHub/End-to-end-ML-Project-with-MLFlow/mlruns/0/9666d0e656a34d70a7b84c37972022dd/artifacts
+end_time: 1691697119678
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 9666d0e656a34d70a7b84c37972022dd
+run_name: powerful-frog-373
+run_uuid: 9666d0e656a34d70a7b84c37972022dd
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1691697118420
+status: 3
+tags: []
+user_id: zekitekin
